@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Document</title>
+</head>
+<body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+    <nav class="sticky top-0 z-10 backdrop-blur bg-white/70 dark:bg-gray-800/70 border-b border-gray-200 dark:border-gray-700">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex items-center gap-4">
+            <a class="flex items-center" href="/rooms/">
+                <img class="h-10 mr-3" src="https://cdn2.iconfinder.com/data/icons/whcompare-isometric-web-hosting-servers/50/email-laptop-256.png" alt="">
+                <span class="self-center text-2xl font-semibold">Chats App</span>
+            </a>
+            <div class="ml-auto flex items-center gap-3">
+                <a class="px-3 py-1.5 rounded bg-blue-600 text-white hover:bg-blue-700" href="/rooms/">Rooms</a>
+                {% if request.user.is_authenticated %}
+                    <span class="text-sm opacity-80">{{ request.user.username }}</span>
+                    <a class="px-3 py-1.5 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600" href="/accounts/logout/">Log out</a>
+                {% else %}
+                    <a class="px-3 py-1.5 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600" href="/accounts/login/">Log in</a>
+                {% endif %}
+                <button id="theme-toggle" class="px-2 py-1 rounded border border-gray-300 dark:border-gray-600" title="Toggle theme">🌓</button>
+            </div>
+        </div>
+    </nav>
+    <main class="max-w-5xl mx-auto px-4">
+        {% block body %}
+        {% endblock %}
+    </main>
+    <script>
+        (function(){
+            const root = document.documentElement;
+            const pref = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            if(pref === 'dark'){ root.classList.add('dark'); }
+            document.getElementById('theme-toggle').addEventListener('click', function(){
+                root.classList.toggle('dark');
+                localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
+            });
+        })();
+    </script>
+    
+</body>
+</html>

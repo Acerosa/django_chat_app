@@ -1,0 +1,21 @@
+{% extends 'chatapp/base.html' %}
+{% block body %}
+<h1 class="text-3xl font-bold mt-8 mb-4">Rooms</h1>
+<p class="text-gray-600 dark:text-gray-300 mb-6">Pick a room to start chatting.</p>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+    {% for chatroom in chatrooms %}
+    <a href="{% url 'chatroom' chatroom.slug %}" class="block rounded-xl border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md hover:border-blue-500 transition bg-white dark:bg-gray-800">
+        <div class="flex items-start gap-3">
+            <div class="h-10 w-10 rounded-full bg-blue-600 text-white flex items-center justify-center">#</div>
+            <div>
+                <h2 class="text-lg font-semibold">{{ chatroom.name }}</h2>
+                <p class="text-sm text-gray-500">/{{ chatroom.slug }}/</p>
+            </div>
+        </div>
+    </a>
+    {% empty %}
+    <div class="text-gray-500">No rooms yet.</div>
+    {% endfor %}
+</div>
+{% endblock %}
